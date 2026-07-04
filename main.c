@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <string.h>
 
 void printBoard(char[3][3]);
 
@@ -48,10 +49,11 @@ void repetation(int *a, char board[3][3], char c)
     int row, col;
     while (1)
     {
-        if (*a > 9 || *a <0)
+        if (*a > 9 || *a < 1)
         {
             printf("You entered a invalid number. Try Again :");
             scanf("%d", a);
+            getchar();
         }
         else
         {
@@ -62,6 +64,7 @@ void repetation(int *a, char board[3][3], char c)
             {
                 printf("You're trying to enter on a preoccupied box. Enter Again :");
                 scanf("%d", a);
+                getchar();
             }
             else
             {
@@ -74,9 +77,10 @@ void repetation(int *a, char board[3][3], char c)
 
 int main()
 {
+    char C;
+    char user[16];
     char winner;
-    int player1;
-    int player2;
+    int input;
     int turn = 0;
     char board[3][3] = {
         {'1', '2', '3'},
@@ -87,12 +91,24 @@ int main()
 
     while (1)
     {
+        if (turn % 2 == 0)
+        {
+            strcpy(user, "Player 1(X)");
+            C = 'X';
+        }
+        else
+        {
+            strcpy(user, "Player 2(O)");
+            C = 'O';
+        }
+
         // Taking input from player 1
-        printf("Player 1(X) please enter the box number you would like to play :");
-        scanf("%d", &player1);
+        printf("%s please enter the box number you would like to play :", user);
+        scanf("%d", &input);
+        getchar();
         turn++;
         // Converting the input of player 1 and redrawing the board with X
-        repetation(&player1, board, 'X');
+        repetation(&input, board, C);
         printBoard(board);
 
         // Checking winner
@@ -109,21 +125,8 @@ int main()
             printf("It's a draw!\n");
             break;
         }
-        // Taking input from player 2
-        printf("Player 2(O) please enter the box number you would like to play :");
-        scanf("%d", &player2);
-        turn++;
-        // Converting the input of player 2 and redrawing the board with O
-        repetation(&player2, board, 'O');
-        printBoard(board);
-        // Checking winner
-        winner = checkWinner(board);
-        if (winner == 'X' || winner == 'O')
-        {
-            printf("Player %c wins!\n", winner);
-            break;
-        }
-    }
 
+
+    }
     return 0;
 }
